@@ -251,14 +251,14 @@
 
       function drawNumber(idInput, id) {
         var valor = document.getElementById(idInput).value;
-
+        mas = false
         if (
-          !Number.isInteger(Number(valor)) &&
-          !(Number(valor) >= 0) &&
-          !(valor.length > 0)
+          Number.isInteger(Number(valor)) &&
+          (Number(valor) >= 0) &&
+          (valor.length > 0)
         ) {
-          alert("Por favor ingresa un número entero mayor o igual a 0.");
-        } else {
+          mas = true
+        }  if (mas) {
           seguir = valida(id, valor);
           console.log(seguir);
           console.log(d);
@@ -292,7 +292,10 @@
               (auxm +auxmh+auxh+auxn)
             ).toFixed(3);
           }
+        } else {
+          alert("Por favor ingresa un número entero mayor o igual a 0.");
         }
+
 
         document.getElementById("input_m").value = d["m"];
         document.getElementById("input_p").value = d["p"];
