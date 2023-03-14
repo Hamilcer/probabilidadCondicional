@@ -35,11 +35,7 @@
   <body>
     <h3>Ejercicio original:</h3>
     <p>
-      En un grupo de 100 estudiantes de bachillerato que están cursando el
-      último año, 42 cursaron matemáticas, 68 psicología, 54 historia, 22
-      matemáticas e historia, 25 matemáticas y psicología, 7 historia pero ni
-      matemáticas ni psicología, 10 las tres materias y 8 no cursaron ninguna de
-      las tres.
+      En un grupo de 135 estudiantes de bachillerato que están cursando el último año, 75 cursaron matemáticas, 82 psicología, 78 historia, 16 matemáticas e historia, 25 matemáticas y psicología, 16 historia pero ni matemáticas ni psicología, 24 las tres materias y 11 no cursaron ninguna de las tres. 
     </p>
 
     <div id="container">
@@ -62,7 +58,7 @@
               id="input_m"
               min="0"
               pattern="\d+"
-              value="42"
+              value="75"
             />
             <button onclick="drawNumber('input_m','m')">Cambiar</button>
           </td>
@@ -73,7 +69,7 @@
               id="input_p"
               min="0"
               pattern="\d+"
-              value="68"
+              value="82"
             />
             <button onclick="drawNumber('input_p','p')">Cambiar</button>
           </td>
@@ -84,7 +80,7 @@
               id="input_h"
               min="0"
               pattern="\d+"
-              value="54"
+              value="78"
             />
             <button onclick="drawNumber('input_h','h')">Cambiar</button>
           </td>
@@ -98,7 +94,7 @@
               id="input_mh"
               min="0"
               pattern="\d+"
-              value="22"
+              value="40"
             />
             <button onclick="drawNumber('input_mh','mh')">Cambiar</button>
           </td>
@@ -109,7 +105,7 @@
               id="input_mp"
               min="0"
               pattern="\d+"
-              value="25"
+              value="49"
             />
             <button onclick="drawNumber('input_mp','mp')">Cambiar</button>
           </td>
@@ -120,7 +116,7 @@
               id="input_ph"
               min="0"
               pattern="\d+"
-              value="35"
+              value="46"
             />
             <button onclick="drawNumber('input_ph','ph')">Cambiar</button>
           </td>
@@ -134,7 +130,7 @@
               id="input_mhp"
               min="0"
               pattern="\d+"
-              value="10"
+              value="24"
             />
             <button onclick="drawNumber('input_mhp','mhp')">Cambiar</button>
           </td>
@@ -145,7 +141,7 @@
               id="input_total"
               min="0"
               pattern="\d+"
-              value="100"
+              value="135"
             />
             <button onclick="drawNumber('input_total','total')">Cambiar</button>
           </td>
@@ -161,23 +157,23 @@
     </p>
     
       <p>a Una persona inscrita en psicología y cursa las tres materias:</p>
-      <p>&emsp; P(M ∩ P ∩ H) = <sup id="resultado1">10</sup>/<sub id="resultado2">68</sub> ≈ <span class="resaltar" id="aprox1">0.147</span></p>
+      <p>&emsp; P(M ∩ P ∩ H) = <sup id="resultado1">24</sup>/<sub id="resultado2">82</sub> ≈ <span class="resaltar" id="aprox1">0.293</span></p>
       <p>
         b Una persona que no se inscribió en psicología curse historia y
         matemáticas:
-        <p>&emsp; P(H ∩ M | P') = [P(H ∩ M ∩ P')]  ÷ [P(P')] </sub> = <sup id="resultado3">12</sup>/<sub id="resultado4">32</sub> ≈ <span class="resaltar" id="aprox2">0.375</span> </p>
+        <p>&emsp; P(H ∩ M | P') = [P(H ∩ M ∩ P')]  ÷ [P(P')] </sub> = <sup id="resultado3">16</sup>/<sub id="resultado4">53</sub> ≈ <span class="resaltar" id="aprox2">0.302</span> </p>
       </p>
   </section> 
     <script>
       let d = {
-        total: 100,
-        m: 42,
-        p: 68,
-        h: 54,
-        mp: 25,
-        ph: 35,
-        mh: 22,
-        mhp: 10,
+        total: 135,
+        m: 75,
+        p: 82,
+        h: 78,
+        mp: 49,
+        ph: 46,
+        mh: 40,
+        mhp: 24,
       };
 
       const canvas = document.getElementById("venn");
