@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Diagrama de Venn con Canvas</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        background-color: whitesmoke;
+        font-size: larger;
+        font-family: sans-serif;
+        margin-bottom: 10%;
+        padding: 1%;
+      }
+      #container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 500px;
+      }
+      #venn {
+        border: 1px solid #000;
+        height: auto;
+        width: 50%;
+        max-width: 400px;
+        max-height: 400px;
+      }
+
+      .resaltar {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Ejercicio original:</h3>
+    <p>
+      En un grupo de 100 estudiantes de bachillerato que están cursando el
+      último año, 42 cursaron matemáticas, 68 psicología, 54 historia, 22
+      matemáticas e historia, 25 matemáticas y psicología, 7 historia pero ni
+      matemáticas ni psicología, 10 las tres materias y 8 no cursaron ninguna de
+      las tres.
+    </p>
+
+    <div id="container">
+      <canvas id="venn" width="400" height="400"></canvas>
+    </div>
+
+    <h4>¡ Cambia la cantidad de estudiantes !</h4>
+    <p>
+      Puedes cambiar el total de estudiantes y la cantidad de estuadiantes que
+      ven cada materia. Presiona el boton cambiar para ver los resultados
+    </p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>Matemáticas (M)</td>
+          <td>
+            <input
+              type="number"
+              id="input_m"
+              min="0"
+              pattern="\d+"
+              value="42"
+            />
+            <button onclick="drawNumber('input_m','m')">Cambiar</button>
+          </td>
+          <td>Psicologia (P)</td>
+          <td>
+            <input
+              type="number"
+              id="input_p"
+              min="0"
+              pattern="\d+"
+              value="68"
+            />
+            <button onclick="drawNumber('input_p','p')">Cambiar</button>
+          </td>
+          <td>Historia (H)</td>
+          <td>
+            <input
+              type="number"
+              id="input_h"
+              min="0"
+              pattern="\d+"
+              value="54"
+            />
+            <button onclick="drawNumber('input_h','h')">Cambiar</button>
+          </td>
+        </tr>
+
+        <tr>
+          <td>M ∩ H</td>
+          <td>
+            <input
+              type="number"
+              id="input_mh"
+              min="0"
+              pattern="\d+"
+              value="22"
+            />
+            <button onclick="drawNumber('input_mh','mh')">Cambiar</button>
+          </td>
+          <td>M ∩ P</td>
+          <td>
+            <input
+              type="number"
+              id="input_mp"
+              min="0"
+              pattern="\d+"
+              value="25"
+            />
+            <button onclick="drawNumber('input_mp','mp')">Cambiar</button>
+          </td>
+          <td>P ∩ H</td>
+          <td>
+            <input
+              type="number"
+              id="input_ph"
+              min="0"
+              pattern="\d+"
+              value="35"
+            />
+            <button onclick="drawNumber('input_ph','ph')">Cambiar</button>
+          </td>
+        </tr>
+
+        <tr>
+          <td>M ∩ H ∩ P</td>
+          <td>
+            <input
+              type="number"
+              id="input_mhp"
+              min="0"
+              pattern="\d+"
+              value="10"
+            />
+            <button onclick="drawNumber('input_mhp','mhp')">Cambiar</button>
+          </td>
+          <td>total</td>
+          <td>
+            <input
+              type="number"
+              id="input_total"
+              min="0"
+              pattern="\d+"
+              value="100"
+            />
+            <button onclick="drawNumber('input_total','total')">Cambiar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+     <section>
+
+    <p>
+      Al selecionar al azar a un estudiante de este grupo se calcula la
+      probabilidad de los siguientes eventos:
+    </p>
+    
+      <p>a Una persona inscrita en psicología y cursa las tres materias:</p>
+      <p>&emsp; P(M ∩ P ∩ H) = <sup id="resultado1">10</sup>/<sub id="resultado2">68</sub> ≈ <span class="resaltar" id="aprox1">0.147</span></p>
+      <p>
+        b Una persona que no se inscribió en psicología curse historia y
+        matemáticas:
+        <p>&emsp; P(H ∩ M | P') = [P(H ∩ M ∩ P')]  ÷ [P(P')] </sub> = <sup id="resultado3">12</sup>/<sub id="resultado4">32</sub> ≈ <span class="resaltar" id="aprox2">0.375</span> </p>
+      </p>
+  </section> 
+    <script>
+      let d = {
+        total: 100,
+        m: 42,
+        p: 68,
+        h: 54,
+        mp: 25,
+        ph: 35,
+        mh: 22,
+        mhp: 10,
+      };
+
+      const canvas = document.getElementById("venn");
+      const ctx = canvas.getContext("2d");
+      const draw = () => {
+        // Adjust canvas size based on container width
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.width;
+
+        const radius = canvas.width * 0.25;
+
+        // Circle 1
+        const x1 = canvas.width * 0.3;
+        const y1 = canvas.height * 0.35;
+        ctx.beginPath();
+        ctx.arc(x1, y1, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = "rgba(255, 0, 0, 0.3)";
+        ctx.fill();
+        ctx.stroke();
+
+        // Circle 2
+        const x2 = canvas.width * 0.7;
+        const y2 = canvas.height * 0.35;
+        ctx.beginPath();
+        ctx.arc(x2, y2, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = "rgba(0, 255, 0, 0.3)";
+        ctx.fill();
+        ctx.stroke();
+
+        // Circle 3
+        const x3 = canvas.width * 0.5;
+        const y3 = canvas.height * 0.64;
+        ctx.beginPath();
+        ctx.arc(x3, y3, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = "rgba(0, 0, 255, 0.3)";
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "black";
+
+        ctx.font = "" + canvas.width * 0.05 + "px " + "Comic Sans MS";
+        ctx.fillText("Matemáticas", canvas.width * 0.1, canvas.height * 0.07);
+        ctx.fillText("Psicologia", canvas.width * 0.6, canvas.height * 0.07);
+        ctx.fillText("Historia", canvas.width * 0.2, canvas.height * 0.9);
+
+        auxm = d["m"] - (d["mp"] + d["mh"] - d["mhp"]);
+        ctx.fillText(auxm, x1, y1);
+        auxp = d["p"] - (d["mp"] + d["ph"] - d["mhp"]);
+        ctx.fillText(auxp, x2, y2);
+        auxh = d["h"] - (d["mh"] + d["ph"] - d["mhp"]);
+        ctx.fillText(auxh, x3, y3);
+        auxmh = d["mh"] - d["mhp"];
+        ctx.fillText(auxmh, x1 * 1.2, y3 * 0.83);
+        auxmp = d["mp"] - d["mhp"];
+        ctx.fillText(auxmp, x2 * 0.68, y1);
+        auxph = d["ph"] - d["mhp"];
+        ctx.fillText(auxph, x2 * 0.83, y3 * 0.8);
+        auxmhp = d["mhp"];
+        ctx.fillText(
+          auxmhp,
+          (canvas.width / 2) * 0.95,
+          (canvas.width / 2) * 0.9
+        );
+        auxn = d["total"] - (d["m"] + d["p"] + d["h"] - d["mp"] - d["mh"] - d["ph"] + d["mhp"])
+        ctx.fillText(auxn,
+          canvas.width * 0.9,
+          canvas.height * 0.9
+        );
+      };
+
+      // Draw initially and on window resize
+      draw();
+      window.addEventListener("resize", draw);
+
+      function drawNumber(idInput, id) {
+        var valor = document.getElementById(idInput).value;
+
+        if (
+          !Number.isInteger(Number(valor)) &&
+          !(Number(valor) >= 0) &&
+          !(valor.length > 0)
+        ) {
+          alert("Por favor ingresa un número entero mayor o igual a 0.");
+        } else {
+          seguir = valida(id, valor);
+          console.log(seguir);
+          console.log(d);
+
+          if (
+            Number.isInteger(Number(valor)) &&
+            Number(valor) >= 0 &&
+            valor.length > 0 &&
+            seguir == true
+          ) {
+            d[id] = parseInt(valor);
+
+            draw();
+
+            //   Probabilidad 1
+            document.getElementById("resultado1").innerHTML = d["mhp"];
+            document.getElementById("resultado2").innerHTML =
+              d["p"];
+            document.getElementById("aprox1").innerHTML = (
+              d["mhp"] /
+              (d["p"])
+            ).toFixed(3);
+
+            //   Probabilidad 2
+            document.getElementById("resultado3").innerHTML = auxmh;
+            document.getElementById("resultado4").innerHTML =
+            auxm +auxmh+auxh+auxn;
+              console.log(auxmh)
+            document.getElementById("aprox2").innerHTML = (
+              auxmh /
+              (auxm +auxmh+auxh+auxn)
+            ).toFixed(3);
+          }
+        }
+
+        document.getElementById("input_m").value = d["m"];
+        document.getElementById("input_p").value = d["p"];
+        document.getElementById("input_h").value = d["h"];
+        document.getElementById("input_mh").value = d["mh"];
+        document.getElementById("input_mp").value = d["mp"];
+        document.getElementById("input_ph").value = d["ph"];
+        document.getElementById("input_mhp").value = d["mhp"];
+        document.getElementById("input_total").value = d["total"];
+      }
+
+      function valida(id, valor) {
+        let auxd = { ...d };
+        auxtotal = d["total"];
+        valor = parseInt(valor);
+        auxd[id] = valor;
+        seguir = true;
+        diferencia = 0;
+        console.log(auxd);
+
+        if (
+          auxtotal != auxd["total"] &&
+          auxd["total"] -
+            (auxd["m"] +
+              auxd["p"] +
+              auxd["h"] -
+              auxd["mp"] -
+              auxd["mh"] -
+              auxd["ph"] +
+              auxd["mhp"]) <
+            0
+        ) {
+          alert(
+            "El minimo total debe ser: " +
+              (auxd["total"] -
+                (auxd["total"] -
+                  (auxd["m"] +
+                    auxd["p"] +
+                    auxd["h"] -
+                    auxd["mp"] -
+                    auxd["mh"] -
+                    auxd["ph"] +
+                    auxd["mhp"])))
+          );
+          return false;
+        }
+
+        if (auxd["m"] - (auxd["mp"] + auxd["mh"] - auxd["mhp"]) < 0) {
+          console.log("1");
+          seguir = false;
+          diferencia = auxd["m"] - (auxd["mp"] + auxd["mh"] - auxd["mhp"]);
+        }
+        if (auxd["p"] - (auxd["mp"] + auxd["ph"] - auxd["mhp"]) < 0) {
+          console.log("1");
+          seguir = false;
+          diferencia = auxd["p"] - (auxd["mp"] + auxd["ph"] - auxd["mhp"]);
+        }
+        if (auxd["h"] - (auxd["mh"] + auxd["ph"] - auxd["mhp"]) < 0) {
+          console.log("1");
+          seguir = false;
+          diferencia = auxd["h"] - (auxd["mh"] + auxd["ph"] - auxd["mhp"]);
+        }
+        if (auxd["mh"] - auxd["mhp"] < 0) {
+          console.log("1");
+          seguir = false;
+          diferencia = auxd["mh"] - auxd["mhp"];
+        }
+        if (auxd["mp"] - auxd["mhp"] < 0) {
+          console.log("1");
+          seguir = false;
+          diferencia = auxd["mp"] - auxd["mhp"];
+        }
+        if (auxd["ph"] - auxd["mhp"] < 0) {
+          console.log("1");
+          seguir = false;
+          diferencia = auxd["ph"] - auxd["mhp"];
+        }
+        if (auxd["mhp"] < 0) {
+          console.log("1");
+          seguir = false;
+          diferencia = auxd["mhp"];
+        }
+        if (
+          auxd["total"] -
+            (auxd["m"] +
+              auxd["p"] +
+              auxd["h"] -
+              auxd["mp"] -
+              auxd["mh"] -
+              auxd["ph"] +
+              auxd["mhp"]) <
+          0
+        ) {
+          alert(
+            "Numero máximo debe ser: " +
+              (valor +
+                (auxd["total"] -
+                  (auxd["m"] +
+                    auxd["p"] +
+                    auxd["h"] -
+                    auxd["mp"] -
+                    auxd["mh"] -
+                    auxd["ph"] +
+                    auxd["mhp"])))
+          );
+          return false;
+        }
+
+        if (!seguir) {
+          console.log(diferencia);
+          alert("El numero minimo debe ser: " + (valor - diferencia));
+          return seguir;
+        }
+
+        return true;
+      }
+    </script>
+  </body>
+</html>
