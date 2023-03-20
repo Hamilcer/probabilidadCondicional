@@ -30,6 +30,9 @@
       .resaltar {
         color: red;
       }
+      #img-formula{
+        padding-left: 5%;
+      }
     </style>
   </head>
   <body>
@@ -157,14 +160,28 @@
       probabilidad de los siguientes eventos:
     </p>
     
-      <p>a Una persona inscrita en psicología y cursa las tres materias:</p>
+      <p>a) Una persona inscrita en psicología y cursa las tres materias:</p>
       <p>&emsp; P(M ∩ P ∩ H) = <sup id="resultado1">24</sup>/<sub id="resultado2">82</sub> ≈ <span class="resaltar" id="aprox1">0.293</span></p>
       <p>
-        b Una persona que no se inscribió en psicología curse historia y
+        b) Una persona que no se inscribió en psicología curse historia y
         matemáticas:
         <p>&emsp; P(H ∩ M | P') = [P(H ∩ M ∩ P')]  ÷ [P(P')] </sub> = <sup id="resultado3">16</sup>/<sub id="resultado4">53</sub> ≈ <span class="resaltar" id="aprox2">0.302</span> </p>
       </p>
   </section> 
+
+
+  <section>
+    <br>
+    <hr>
+    <h3>Teoría aplicada</h3>
+    <p>Probabilidad condicional:
+      La probabilidad de que ocurra un evento B cuando se sabe que ya ocurrió algún evento
+      A se llama probabilidad condicional y se denota con P(B|A).
+    </p>
+    <div id="img-formula">
+      <img src="./formula.png" alt="">
+    </div>
+  </section>
     <script>
       let d = {
         total: 135,
@@ -260,8 +277,6 @@
           mas = true
         }  if (mas) {
           seguir = valida(id, valor);
-          console.log(seguir);
-          console.log(d);
 
           if (
             Number.isInteger(Number(valor)) &&
@@ -286,7 +301,6 @@
             document.getElementById("resultado3").innerHTML = auxmh;
             document.getElementById("resultado4").innerHTML =
             auxm +auxmh+auxh+auxn;
-              console.log(auxmh)
             document.getElementById("aprox2").innerHTML = (
               auxmh /
               (auxm +auxmh+auxh+auxn)
@@ -314,7 +328,6 @@
         auxd[id] = valor;
         seguir = true;
         diferencia = 0;
-        console.log(auxd);
 
         if (
           auxtotal != auxd["total"] &&
@@ -328,56 +341,52 @@
               auxd["mhp"]) <
             0
         ) {
-          alert(
-            "El minimo total debe ser: " +
-              (auxd["total"] -
-                (auxd["total"] -
-                  (auxd["m"] +
-                    auxd["p"] +
-                    auxd["h"] -
-                    auxd["mp"] -
-                    auxd["mh"] -
-                    auxd["ph"] +
-                    auxd["mhp"])))
-          );
-          return false;
+          seguir = false;
+          diferencia = auxd["total"] -
+            (auxd["m"] +
+              auxd["p"] +
+              auxd["h"] -
+              auxd["mp"] -
+              auxd["mh"] -
+              auxd["ph"] +
+              auxd["mhp"])
         }
 
         if (auxd["m"] - (auxd["mp"] + auxd["mh"] - auxd["mhp"]) < 0) {
-          console.log("1");
           seguir = false;
           diferencia = auxd["m"] - (auxd["mp"] + auxd["mh"] - auxd["mhp"]);
         }
+
         if (auxd["p"] - (auxd["mp"] + auxd["ph"] - auxd["mhp"]) < 0) {
-          console.log("1");
           seguir = false;
           diferencia = auxd["p"] - (auxd["mp"] + auxd["ph"] - auxd["mhp"]);
         }
+
         if (auxd["h"] - (auxd["mh"] + auxd["ph"] - auxd["mhp"]) < 0) {
-          console.log("1");
           seguir = false;
           diferencia = auxd["h"] - (auxd["mh"] + auxd["ph"] - auxd["mhp"]);
         }
+
         if (auxd["mh"] - auxd["mhp"] < 0) {
-          console.log("1");
           seguir = false;
           diferencia = auxd["mh"] - auxd["mhp"];
         }
+
         if (auxd["mp"] - auxd["mhp"] < 0) {
-          console.log("1");
           seguir = false;
           diferencia = auxd["mp"] - auxd["mhp"];
         }
+
         if (auxd["ph"] - auxd["mhp"] < 0) {
-          console.log("1");
           seguir = false;
           diferencia = auxd["ph"] - auxd["mhp"];
         }
+
         if (auxd["mhp"] < 0) {
-          console.log("1");
           seguir = false;
           diferencia = auxd["mhp"];
         }
+
         if (
           auxd["total"] -
             (auxd["m"] +
@@ -389,24 +398,22 @@
               auxd["mhp"]) <
           0
         ) {
-          alert(
-            "Numero máximo debe ser: " +
-              (valor +
-                (auxd["total"] -
-                  (auxd["m"] +
-                    auxd["p"] +
-                    auxd["h"] -
-                    auxd["mp"] -
-                    auxd["mh"] -
-                    auxd["ph"] +
-                    auxd["mhp"])))
-          );
-          return false;
+          
+          seguir = false;
+          diferencia = auxd["total"] -
+            (auxd["m"] +
+              auxd["p"] +
+              auxd["h"] -
+              auxd["mp"] -
+              auxd["mh"] -
+              auxd["ph"] +
+              auxd["mhp"])
         }
 
         if (!seguir) {
+          console.log(valor)
           console.log(diferencia);
-          alert("El numero minimo debe ser: " + (valor - diferencia));
+          alert("Te pasate por : " + (-diferencia) + " estudiantes.");
           return seguir;
         }
 
